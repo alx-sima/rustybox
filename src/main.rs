@@ -4,7 +4,7 @@ fn pwd() {
     if let Ok(cwd) = std::env::current_dir() {
         println!("{}", cwd.display());
     } else {
-        eprintln!("rustybox: pwd: failed to get current directory");
+        eprintln!("pwd: failed to get current directory");
     }
 }
 
@@ -13,6 +13,7 @@ fn cat(args: &[String]) {
         if let Ok(contents) = std::fs::read_to_string(arg) {
             print!("{}", contents);
         } else {
+            eprint!("cat: {}: No such file or directory", arg);
             std::process::exit(-20);
         }
     }
@@ -21,6 +22,7 @@ fn cat(args: &[String]) {
 fn mkdir(args: &[String]) {
     for arg in args {
         if std::fs::create_dir(arg).is_err() {
+            eprint!("mkdir: cannot create directory '{}'", arg);
             std::process::exit(-30);
         }
     }
@@ -28,10 +30,12 @@ fn mkdir(args: &[String]) {
 
 fn mv(args: &[String]) {
     let [src, dst] = args else {
+        eprint!("Usage: mv SOURCE DEST");
         std::process::exit(-40);
     };
 
     if std::fs::rename(src, dst).is_err() {
+        eprint!("mv: cannot move '{}' to '{}'", src, dst);
         std::process::exit(-40);
     }
 }
@@ -39,6 +43,7 @@ fn mv(args: &[String]) {
 fn rmdir(args: &[String]) {
     for arg in args {
         if std::fs::remove_dir(arg).is_err() {
+            eprint!("rmdir: failed to remove '{}'", arg);
             std::process::exit(-60);
         }
     }
@@ -60,7 +65,10 @@ fn convert_mode(mode: u32, mode_str: &String) -> u32 {
             'r' => mode_mask |= 0o444,
             'w' => mode_mask |= 0o222,
             'x' => mode_mask |= 0o111,
-            _ => std::process::exit(-25),
+            _ => {
+                eprint!("chmod: invalid mode '{}'", mode_str);
+                std::process::exit(-25);
+            }
         }
     }
 
@@ -74,6 +82,7 @@ fn convert_mode(mode: u32, mode_str: &String) -> u32 {
 
 fn chmod(args: &[String]) {
     let [mode, path] = args else {
+        eprint!("Usage: chmod MODE FILE");
         std::process::exit(-25);
     };
 
@@ -85,12 +94,14 @@ fn chmod(args: &[String]) {
         if let Ok(metadata) = std::fs::metadata(path) {
             convert_mode(metadata.permissions().mode(), mode)
         } else {
+            eprint!("chmod: failed to access '{}'", path);
             std::process::exit(-25);
         }
     };
 
     let new_perm = std::fs::Permissions::from_mode(new_mode);
     if std::fs::set_permissions(path, new_perm).is_err() {
+        eprint!("chmod: failed to set permissions for '{}'", path);
         std::process::exit(-25);
     }
 }
@@ -109,7 +120,7 @@ fn main() {
             "mv" => mv(args),
             "rmdir" => rmdir(args),
             "chmod" => chmod(args),
-            _ => eprintln!("rustybox: {}: unknown command", command),
+            _ => eprintln!("Invalid command"),
         }
     } else {
         eprintln!("Usage: {} COMMAND [ARGS]...", rustybox_exec);
