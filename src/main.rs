@@ -76,7 +76,34 @@ fn mv(args: &[String]) {
 }
 
 fn ln(args: &[String]) {
-    todo!("ln")
+    let (opts, args) = extract_options(args);
+    let mut symbolic = false;
+
+    for opt in opts {
+        match opt.as_str() {
+            "-s" | "--symbolic" => symbolic = true,
+            _ => {
+                eprint!("Invalid command");
+                std::process::exit(-50);
+            }
+        }
+    }
+
+    let [src, dst] = args.as_slice() else {
+        eprint!("Usage: ln SOURCE DEST");
+        std::process::exit(-50);
+    };
+
+    let ret_status = if symbolic {
+        std::os::unix::fs::symlink(src, dst)
+    } else {
+        std::fs::hard_link(src, dst)
+    };
+
+    if ret_status.is_err() {
+        eprint!("ln: cannot link '{}' to '{}'", src, dst);
+        std::process::exit(-50);
+    }
 }
 
 fn rmdir(args: &[String]) {
