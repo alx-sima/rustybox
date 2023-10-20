@@ -1,5 +1,10 @@
 use std::os::unix::prelude::PermissionsExt;
 
+/// Split args into options (flags) and arguments.
+fn extract_options(args: &[String]) -> (Vec<&String>, Vec<&String>) {
+    args.iter().partition(|arg| arg.starts_with("-"))
+}
+
 fn pwd() {
     if let Ok(cwd) = std::env::current_dir() {
         println!("{}", cwd.display());
@@ -9,7 +14,33 @@ fn pwd() {
 }
 
 fn echo(args: &[String]) {
-    todo!("echo")
+    let (opts, args) = extract_options(args);
+    let mut endline = true;
+
+    for opt in opts {
+        match opt.as_str() {
+            "-n" => endline = false,
+            _ => {
+                eprint!("Invalid command");
+                std::process::exit(-10);
+            }
+        }
+    }
+
+    if let Some((first, args)) = args.split_first() {
+        print!("{}", first);
+
+        for arg in args {
+            print!(" {}", arg);
+        }
+
+        if endline {
+            println!();
+        }
+    } else {
+        eprint!("Invalid command");
+        std::process::exit(-10);
+    }
 }
 
 fn cat(args: &[String]) {
