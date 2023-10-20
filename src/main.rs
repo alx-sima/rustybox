@@ -6,6 +6,16 @@ fn pwd() {
     }
 }
 
+fn cat(args: &[String]) {
+    for arg in args {
+        if let Ok(contents) = std::fs::read_to_string(arg) {
+            print!("{}", contents);
+        } else {
+            std::process::exit(-20);
+        }
+    }
+}
+
 fn main() {
     let args = std::env::args().collect::<Vec<String>>();
 
@@ -15,6 +25,7 @@ fn main() {
     if let Some((command, args)) = rustybox_command.split_first() {
         match command.as_str() {
             "pwd" => pwd(),
+            "cat" => cat(args),
             _ => eprintln!("rustybox: {}: unknown command", command),
         }
     } else {
