@@ -1,17 +1,23 @@
-/* Suggestions: 1. Write a function for every command
-                2. Start with the pwd command
-                3. Continue with the other commands that do not have parameters
-*/
-
 fn pwd() {
-
-    // TODO 3: Implement the logic for pwd
-
+    if let Ok(cwd) = std::env::current_dir() {
+        println!("{}", cwd.display());
+    } else {
+        eprintln!("rustybox: pwd: failed to get current directory");
+    }
 }
 
 fn main() {
+    let args = std::env::args().collect::<Vec<String>>();
 
-    // TODO 1: Read the command line arguments
+    // rustybox_exec always exists.
+    let (rustybox_exec, rustybox_command) = args.split_first().unwrap();
 
-    // TODO 2: If the first argument is pwd, call pwd()
+    if let Some((command, args)) = rustybox_command.split_first() {
+        match command.as_str() {
+            "pwd" => pwd(),
+            _ => eprintln!("rustybox: {}: unknown command", command),
+        }
+    } else {
+        eprintln!("Usage: {} COMMAND [ARGS]...", rustybox_exec);
+    }
 }
