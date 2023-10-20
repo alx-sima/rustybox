@@ -34,6 +34,14 @@ fn mv(args: &[String]) {
     }
 }
 
+fn rmdir(args: &[String]) {
+    for arg in args {
+        if !std::fs::remove_dir(arg).is_ok() {
+            std::process::exit(-60);
+        }
+    }
+}
+
 fn main() {
     let args = std::env::args().collect::<Vec<String>>();
 
@@ -46,6 +54,7 @@ fn main() {
             "cat" => cat(args),
             "mkdir" => mkdir(args),
             "mv" => mv(args),
+            "rmdir" => rmdir(args),
             _ => eprintln!("rustybox: {}: unknown command", command),
         }
     } else {
