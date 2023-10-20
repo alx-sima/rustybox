@@ -1,0 +1,744 @@
+{
+  "tests": [
+    {
+      "name": "Rust",
+      "setup": "cargo build",
+      "run": "cargo install --path .",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 3,
+      "points": null
+    },
+    {
+      "name": "Install Testing",
+      "setup": "git submodule update --init && cd tests && git pull",
+      "run": "npm install lodash",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": null
+    },
+    {
+      "name": "cat simple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh cat/cat_simple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "cat triple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh cat/cat_triple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "cat error",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh cat/cat_error.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "echo multiple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh echo/echo_multiple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "echo newline multiple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh echo/echo_newline_multiple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "echo newline simple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh echo/echo_newline_simple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "echo simple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh echo/echo_simple.sh ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "echo spaces",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh echo/echo_spaces.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "pwd",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh pwd/pwd.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "touch access",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh touch/touch_a.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "touch modified",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh touch/touch_m.sh ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "touch no create new",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh touch/touch_no_create_new.sh ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "touch simple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh touch/touch_simple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "touch simple exists",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh touch/touch_simple_exists.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "invalid chmod",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh invalid/invalid_chmod.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "invalid command",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh invalid/invalid_command.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "invalid parameters",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh invalid/invalid_parameters.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "invalid parameters 2",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh invalid/invalid_parameters2.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "mkdir error",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh mkdir/mkdir_error.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "mkdir multiple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh mkdir/mkdir_multiple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "mkdir path",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh mkdir/mkdir_path.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "mkdir path multiple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh mkdir/mkdir_path_multiple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "mkdir simple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh mkdir/mkdir_simple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "mkdir spaces",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh mkdir/mkdir_spaces.sh ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "rmdir empty error",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh rmdir/rmdir_empty_error.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "rmedir exists error",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh rmdir/rmdir_exists_error.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "rmdir link",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh rmdir/rmdir_link.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "rmdir multiple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh rmdir/rmdir_multiple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "rmdir simple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh rmdir/rmdir_simple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "mv dir",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh mv/mv_dir.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "mv error",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh mv/mv_error.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "mv simple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh mv/mv_simple.sh ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "ln error",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh ln/ln_error.sh ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "ln s",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh ln/ln_s.sh ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "ln simple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh ln/ln_simple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "ln symbolic",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh ln/ln_symbolic.sh ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "ls all",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh ls/ls_all.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 20
+    },
+    {
+      "name": "ls all re",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh ls/ls_all_r.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 25
+    },
+    {
+      "name": "ls dir",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh ls/ls_dir.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "ls error",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh ls/ls_err.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "ls file",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh ls/ls_file.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "ls re",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh ls/ls_r.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 20
+    },
+    {
+      "name": "ls simple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh ls/ls_simple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "cp error directory",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh cp/cp_error_dir.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "cp error file",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh cp/cp_error_file.sh ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "cp re",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh cp/cp_r.sh ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 15
+    },
+    {
+      "name": "cp re file",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh cp/cp_r_file.sh ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": null
+    },
+    {
+      "name": "cp rename directory",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh cp/cp_rename_dir.sh ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 20
+    },
+    {
+      "name": "cp simple file",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh cp/cp_simple_file.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "cp simple rename",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh cp/cp_simple_rename.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "chmod add multiple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh chmod/chmod_add_multiple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 20
+    },
+    {
+      "name": "chmod add one",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh chmod/chmod_add_one.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 15
+    },
+    {
+      "name": "chmod all",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh chmod/chmod_all.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 20
+    },
+    {
+      "name": "chmod del multiple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh chmod/chmod_del_multiple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 20
+    },
+    {
+      "name": "chmod del one",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh chmod/chmod_del_one.sh ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 15
+    },
+    {
+      "name": "chmod number",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh chmod/chmod_number.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "chmod user group",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh chmod/chmod_user_group.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 20
+    },
+    {
+      "name": "rm cascade",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh rm/rm_cascade.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 15
+    },
+    {
+      "name": "rm dir",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh rm/rm_dir.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "rm empty directory",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh rm/rm_empty_dir.sh ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "rm error directory",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh rm/rm_error_dir.sh ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "rm error exists",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh rm/rm_error_exists.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "rm file",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh rm/rm_file.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "rm multiple files",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh rm/rm_multiple_files.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "rm multiple mixed",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh rm/rm_multiple_mixed.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 15
+    },
+    {
+      "name": "rm re",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh rm/rm_recursive.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 15
+    },
+    {
+      "name": "grep multiple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh grep/echo_multiple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "grep nodescription",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh grep/echo_nodescription.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "grep shell",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh grep/echo_shell.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "grep simple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh grep/grep_simple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "ls list",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh ls/ls_l.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 25
+    },
+    {
+      "name": "ls list re",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh ls/ls_l_r.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 25
+    }
+  ]
+}
