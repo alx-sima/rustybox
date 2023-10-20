@@ -8,6 +8,10 @@ fn pwd() {
     }
 }
 
+fn echo(args: &[String]) {
+    todo!("echo")
+}
+
 fn cat(args: &[String]) {
     for arg in args {
         if let Ok(contents) = std::fs::read_to_string(arg) {
@@ -40,6 +44,10 @@ fn mv(args: &[String]) {
     }
 }
 
+fn ln(args: &[String]) {
+    todo!("ln")
+}
+
 fn rmdir(args: &[String]) {
     for arg in args {
         if std::fs::remove_dir(arg).is_err() {
@@ -47,6 +55,22 @@ fn rmdir(args: &[String]) {
             std::process::exit(-60);
         }
     }
+}
+
+fn rm(args: &[String]) {
+    todo!("rm")
+}
+
+fn ls(args: &[String]) {
+    todo!("ls")
+}
+
+fn cp(args: &[String]) {
+    todo!("cp")
+}
+
+fn touch(args: &[String]) {
+    todo!("touch")
 }
 
 fn convert_mode(mode: u32, mode_str: &String) -> u32 {
@@ -115,10 +139,16 @@ fn main() {
     if let Some((command, args)) = rustybox_command.split_first() {
         match command.as_str() {
             "pwd" => pwd(),
+            "echo" => echo(args),
             "cat" => cat(args),
             "mkdir" => mkdir(args),
             "mv" => mv(args),
+            "ln" => ln(args),
             "rmdir" => rmdir(args),
+            "rm" => rm(args),
+            "ls" => ls(args),
+            "cp" => cp(args),
+            "touch" => touch(args),
             "chmod" => chmod(args),
             _ => eprintln!("Invalid command"),
         }
