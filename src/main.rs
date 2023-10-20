@@ -24,6 +24,16 @@ fn mkdir(args: &[String]) {
     }
 }
 
+fn mv(args: &[String]) {
+    let [src, dst] = args else {
+        std::process::exit(-40);
+    };
+
+    if !std::fs::rename(src, dst).is_ok() {
+        std::process::exit(-40);
+    }
+}
+
 fn main() {
     let args = std::env::args().collect::<Vec<String>>();
 
@@ -35,6 +45,7 @@ fn main() {
             "pwd" => pwd(),
             "cat" => cat(args),
             "mkdir" => mkdir(args),
+            "mv" => mv(args),
             _ => eprintln!("rustybox: {}: unknown command", command),
         }
     } else {
