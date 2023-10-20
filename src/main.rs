@@ -16,6 +16,14 @@ fn cat(args: &[String]) {
     }
 }
 
+fn mkdir(args: &[String]) {
+    for arg in args {
+        if !std::fs::create_dir(arg).is_ok() {
+            std::process::exit(-30);
+        }
+    }
+}
+
 fn main() {
     let args = std::env::args().collect::<Vec<String>>();
 
@@ -26,6 +34,7 @@ fn main() {
         match command.as_str() {
             "pwd" => pwd(),
             "cat" => cat(args),
+            "mkdir" => mkdir(args),
             _ => eprintln!("rustybox: {}: unknown command", command),
         }
     } else {
