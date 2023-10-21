@@ -116,7 +116,35 @@ fn rmdir(args: &[String]) {
 }
 
 fn rm(args: &[String]) {
-    todo!("rm")
+    let (opts, args) = extract_options(args);
+    let mut recursive = false;
+    let mut rmdir = false;
+
+    for opt in opts {
+        match opt.as_str() {
+            "-r" | "--recursive" => recursive = true,
+            "-d" | "--dir" => rmdir = true,
+            _ => {
+                eprint!("Invalid command");
+                std::process::exit(-70);
+            }
+        }
+    }
+
+    for arg in args {
+        let ret_status = if recursive {
+            std::fs::remove_dir_all(arg)
+        } else if rmdir {
+            std::fs::remove_dir(arg)
+        } else {
+            std::fs::remove_file(arg)
+        };
+
+        if ret_status.is_err() {
+            eprint!("rm: failed to remove '{}'", arg);
+            std::process::exit(-70);
+        }
+    }
 }
 
 fn ls(args: &[String]) {
