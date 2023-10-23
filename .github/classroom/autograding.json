@@ -13,7 +13,7 @@
     {
       "name": "Install Testing",
       "setup": "git submodule update --init && cd tests && git checkout main && git pull",
-      "run": "npm install lodash",
+      "run": "npm install",
       "input": "",
       "output": "",
       "comparison": "included",
