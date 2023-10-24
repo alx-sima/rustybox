@@ -21,7 +21,7 @@ fn echo(args: &[String]) {
         match opt.as_str() {
             "-n" => endline = false,
             _ => {
-                eprint!("Invalid command");
+                eprintln!("Invalid command");
                 std::process::exit(-10);
             }
         }
@@ -38,7 +38,7 @@ fn echo(args: &[String]) {
             println!();
         }
     } else {
-        eprint!("Invalid command");
+        eprintln!("Invalid command");
         std::process::exit(-10);
     }
 }
@@ -48,7 +48,7 @@ fn cat(args: &[String]) {
         if let Ok(contents) = std::fs::read_to_string(arg) {
             print!("{}", contents);
         } else {
-            eprint!("cat: {}: No such file or directory", arg);
+            eprintln!("cat: {}: No such file or directory", arg);
             std::process::exit(-20);
         }
     }
@@ -57,7 +57,7 @@ fn cat(args: &[String]) {
 fn mkdir(args: &[String]) {
     for arg in args {
         if std::fs::create_dir(arg).is_err() {
-            eprint!("mkdir: cannot create directory '{}'", arg);
+            eprintln!("mkdir: cannot create directory '{}'", arg);
             std::process::exit(-30);
         }
     }
@@ -65,12 +65,12 @@ fn mkdir(args: &[String]) {
 
 fn mv(args: &[String]) {
     let [src, dst] = args else {
-        eprint!("Usage: mv SOURCE DEST");
+        eprintln!("Usage: mv SOURCE DEST");
         std::process::exit(-40);
     };
 
     if std::fs::rename(src, dst).is_err() {
-        eprint!("mv: cannot move '{}' to '{}'", src, dst);
+        eprintln!("mv: cannot move '{}' to '{}'", src, dst);
         std::process::exit(-40);
     }
 }
@@ -83,14 +83,14 @@ fn ln(args: &[String]) {
         match opt.as_str() {
             "-s" | "--symbolic" => symbolic = true,
             _ => {
-                eprint!("Invalid command");
+                eprintln!("Invalid command");
                 std::process::exit(-50);
             }
         }
     }
 
     let [src, dst] = args.as_slice() else {
-        eprint!("Usage: ln SOURCE DEST");
+        eprintln!("Usage: ln [OPTION]... SOURCE DEST");
         std::process::exit(-50);
     };
 
@@ -101,7 +101,7 @@ fn ln(args: &[String]) {
     };
 
     if ret_status.is_err() {
-        eprint!("ln: cannot link '{}' to '{}'", src, dst);
+        eprintln!("ln: cannot link '{}' to '{}'", src, dst);
         std::process::exit(-50);
     }
 }
@@ -109,7 +109,7 @@ fn ln(args: &[String]) {
 fn rmdir(args: &[String]) {
     for arg in args {
         if std::fs::remove_dir(arg).is_err() {
-            eprint!("rmdir: failed to remove '{}'", arg);
+            eprintln!("rmdir: failed to remove '{}'", arg);
             std::process::exit(-60);
         }
     }
@@ -125,7 +125,7 @@ fn rm(args: &[String]) {
             "-r" | "--recursive" => recursive = true,
             "-d" | "--dir" => rmdir = true,
             _ => {
-                eprint!("Invalid command");
+                eprintln!("Invalid command");
                 std::process::exit(-70);
             }
         }
@@ -141,7 +141,7 @@ fn rm(args: &[String]) {
         };
 
         if ret_status.is_err() {
-            eprint!("rm: failed to remove '{}'", arg);
+            eprintln!("rm: failed to remove '{}'", arg);
             std::process::exit(-70);
         }
     }
@@ -237,7 +237,7 @@ fn ls(args: &[String]) {
             "-a" | "--all" => all = true,
             "-l" => todo!(),
             _ => {
-                eprint!("Invalid command");
+                eprintln!("Invalid command");
                 std::process::exit(-80);
             }
         }
@@ -278,7 +278,7 @@ fn convert_mode(mode: u32, mode_str: &String) -> u32 {
             'w' => mode_mask |= 0o222,
             'x' => mode_mask |= 0o111,
             _ => {
-                eprint!("chmod: invalid mode '{}'", mode_str);
+                eprintln!("chmod: invalid mode '{}'", mode_str);
                 std::process::exit(-25);
             }
         }
@@ -294,7 +294,7 @@ fn convert_mode(mode: u32, mode_str: &String) -> u32 {
 
 fn chmod(args: &[String]) {
     let [mode, path] = args else {
-        eprint!("Usage: chmod MODE FILE");
+        eprintln!("Usage: chmod MODE FILE");
         std::process::exit(-25);
     };
 
@@ -306,14 +306,14 @@ fn chmod(args: &[String]) {
         if let Ok(metadata) = std::fs::metadata(path) {
             convert_mode(metadata.permissions().mode(), mode)
         } else {
-            eprint!("chmod: failed to access '{}'", path);
+            eprintln!("chmod: failed to access '{}'", path);
             std::process::exit(-25);
         }
     };
 
     let new_perm = std::fs::Permissions::from_mode(new_mode);
     if std::fs::set_permissions(path, new_perm).is_err() {
-        eprint!("chmod: failed to set permissions for '{}'", path);
+        eprintln!("chmod: failed to set permissions for '{}'", path);
         std::process::exit(-25);
     }
 }
