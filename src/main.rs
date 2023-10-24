@@ -147,8 +147,110 @@ fn rm(args: &[String]) {
     }
 }
 
+fn list_dirs_rec(path_root: &String, dir_name: &String, all: bool, recursive: bool) -> Vec<String> {
+    let full_path = format!("{}/{}/", path_root, dir_name);
+
+    let Ok(contents) = std::fs::read_dir(&full_path) else {
+        eprintln!("ls: failed reading files from '{}'", full_path);
+        std::process::exit(-80);
+    };
+
+    let mut dirs = Vec::new();
+    let mut hidden_files = if all {
+        vec![format!("{}.", dir_name), format!("{}..", dir_name)]
+    } else {
+        vec![]
+    };
+
+    for entry in contents {
+        let Ok(entry) = entry else {
+            eprintln!("ls: failed reading files from '{}'", full_path);
+            std::process::exit(-80);
+        };
+
+        if let Some(entry_name) = entry.file_name().to_str() {
+            let entry_full_name = format!("{}{}", dir_name, entry_name);
+
+            if entry_name.starts_with(".") {
+                if all {
+                    hidden_files.push(entry_full_name.to_owned());
+                }
+
+                continue;
+            }
+
+            println!("{}", entry_full_name);
+
+            if !recursive {
+                continue;
+            }
+
+            let Ok(file_type) = entry.file_type() else {
+                eprintln!("ls: failed reading metadata of '{}'", entry_full_name);
+                std::process::exit(-80);
+            };
+
+            if file_type.is_dir() {
+                dirs.push(entry_full_name);
+            }
+        } else {
+            eprintln!("ls: unsupported filename encoding in '{}'", full_path);
+            std::process::exit(-80);
+        }
+    }
+
+    for dir in dirs {
+        let dir_path = format!("{}/", dir);
+        hidden_files.append(&mut list_dirs_rec(&path_root, &dir_path, all, recursive));
+    }
+
+    hidden_files
+}
+
+fn list_file(path: &String, all: bool, recursive: bool) {
+    if let Ok(file_metadata) = std::fs::metadata(path) {
+        if file_metadata.is_file() {
+            println!("{}", path);
+            return;
+        }
+    } else {
+        eprintln!("ls: failed reading metadata for '{}'", path);
+        std::process::exit(-80);
+    }
+
+    let empty = String::from("");
+
+    let remaining_hidden_files = list_dirs_rec(path, &empty, all, recursive);
+    for file in remaining_hidden_files {
+        println!("{}", file);
+    }
+}
+
 fn ls(args: &[String]) {
-    todo!("ls")
+    let (opts, args) = extract_options(args);
+    let mut recursive = false;
+    let mut all = false;
+
+    for opt in opts {
+        match opt.as_str() {
+            "-R" | "--recursive" => recursive = true,
+            "-a" | "--all" => all = true,
+            "-l" => todo!(),
+            _ => {
+                eprint!("Invalid command");
+                std::process::exit(-80);
+            }
+        }
+    }
+
+    // ls with no dirs lists current directory.
+    if args.is_empty() {
+        list_file(&String::from("."), all, recursive);
+    }
+
+    for arg in args {
+        list_file(arg, all, recursive);
+    }
 }
 
 fn cp(args: &[String]) {
