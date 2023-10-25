@@ -253,8 +253,119 @@ fn ls(args: &[String]) {
     }
 }
 
+fn copy_dir(src_root: &String, dest_root: &String, dir: &String) {
+    let full_path = format!("{}/{}", src_root, dir);
+    let Ok(contents) = std::fs::read_dir(&full_path) else {
+        eprintln!("ls: failed reading files from '{}'", full_path);
+        std::process::exit(-90);
+    };
+
+    for entry in contents {
+        let Ok(entry) = entry else {
+            eprintln!("ls: failed reading files from '{}'", full_path);
+            std::process::exit(-90);
+        };
+
+        if let Some(file_name) = entry.file_name().to_str() {
+            let full_file_name = format!("{}/{}", full_path, file_name);
+            let file_name = format!("{}/{}", dir, file_name);
+            let full_dest_name = format!("{}/{}", dest_root, file_name);
+
+            let Ok(metadata) = std::fs::metadata(&full_file_name) else {
+                eprintln!("ls: failed reading metadata of '{}'", full_file_name);
+                std::process::exit(-90);
+            };
+
+            if metadata.is_dir() {
+                if std::fs::create_dir(&full_dest_name).is_err() {
+                    eprintln!("cp: failed to create directory '{}'", full_dest_name);
+                    std::process::exit(-90);
+                }
+
+                copy_dir(src_root, dest_root, &file_name);
+            } else {
+                if std::fs::copy(&full_file_name, &full_dest_name).is_err() {
+                    eprintln!(
+                        "cp: failed to move {} to {}",
+                        full_file_name, full_dest_name
+                    );
+                    std::process::exit(-90);
+                }
+            }
+        } else {
+            eprintln!("ls: unsupported filename encoding in '{}'", full_path);
+            std::process::exit(-90);
+        }
+    }
+}
+
 fn cp(args: &[String]) {
-    todo!("cp")
+    let (opts, args) = extract_options(args);
+    let mut recursive = false;
+
+    for opt in opts {
+        match opt.as_str() {
+            "-R" | "-r" | "--recursive" => recursive = true,
+            _ => {
+                eprintln!("Invalid command");
+                std::process::exit(-90);
+            }
+        }
+    }
+
+    let [src, dest] = args.as_slice() else {
+        eprintln!("Usage: cp [OPTION]... SOURCE DEST");
+        std::process::exit(-90);
+    };
+
+    let actual_dest = match std::fs::metadata(dest) {
+        // If the destination exists and is a directory,
+        // we copy the source *inside* it and it will be
+        // named as the *basename* of the source.
+        Ok(metadata) => {
+            if metadata.is_dir() {
+                // The basename is the last thing after a slash.
+                let Some(basename) = src.rsplit("/").next() else {
+                    eprintln!("cp: failed to get basename of '{}'", src);
+                    std::process::exit(-90);
+                };
+
+                format!("{}/{}", dest, basename)
+            } else {
+                dest.to_string()
+            }
+        }
+        // If dest doesn't exist, the destination is a file.
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => dest.to_string(),
+        Err(_) => {
+            eprintln!("cp: failed to access '{}'", dest);
+            std::process::exit(-90);
+        }
+    };
+
+    if let Ok(file_metadata) = std::fs::metadata(src) {
+        if file_metadata.is_dir() {
+            if recursive {
+                if std::fs::create_dir(&actual_dest).is_err() {
+                    eprintln!("cp: failed to create directory '{}'", actual_dest);
+                    std::process::exit(-90);
+                }
+                copy_dir(src, &actual_dest, &String::from("."));
+                return;
+            } else {
+                eprintln!("cp: omitting directory '{}'", src);
+                std::process::exit(-90);
+            }
+        } else {
+            if std::fs::copy(src, &actual_dest).is_err() {
+                eprintln!("cp: failed to move {} to {}", src, actual_dest);
+                std::process::exit(-90);
+            }
+        }
+    } else {
+        eprintln!("cp: failed to access '{}'", src);
+        std::process::exit(-90);
+    }
 }
 
 fn touch(args: &[String]) {
