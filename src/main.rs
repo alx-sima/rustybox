@@ -1,4 +1,7 @@
-use std::os::unix::prelude::PermissionsExt;
+use std::{
+    io::Write,
+    os::unix::prelude::{FileExt, PermissionsExt},
+};
 
 /// Split args into options (flags) and arguments.
 fn extract_options(args: &[String]) -> (Vec<&String>, Vec<&String>) {
@@ -369,7 +372,71 @@ fn cp(args: &[String]) {
 }
 
 fn touch(args: &[String]) {
-    todo!("touch")
+    let (opts, args) = extract_options(args);
+    let mut only_access = false;
+    let mut only_modification = false;
+    let mut create = true;
+
+    for opt in opts {
+        match opt.as_str() {
+            "-a" => only_access = true,
+            "-c" | "--no-creat" => create = false,
+            "-m" => only_modification = true,
+            _ => {}
+        }
+    }
+
+    for path in args {
+        match std::fs::OpenOptions::new()
+            .read(!only_modification)
+            .append(!only_access)
+            .create(create)
+            .open(path)
+        {
+            Ok(mut file) => {
+                let mut temp_buffer = [b'\0'];
+
+                let Ok(metadata) = file.metadata() else {
+                    eprintln!("touch: failed to access '{}'", path);
+                    std::process::exit(-100);
+                };
+                let file_len = metadata.len();
+
+                // Force a mtime modification by writing a dummy char.
+                if !only_access {
+                    if file.write_all(&[b'\0']).is_err() {
+                        eprintln!("touch: failed to modify mtime of '{}'", path);
+                        std::process::exit(-100);
+                    }
+                }
+
+                // Read file contents to force atime modification.
+                if !only_modification {
+                    if file.read_at(&mut temp_buffer, 0).is_err() {
+                        eprintln!("touch: failed to modify atime of '{}'", path);
+                        std::process::exit(-100);
+                    }
+                    println!("{:?}", temp_buffer);
+                }
+
+                // Restore initial length of the file (removing the added char).
+                if file.set_len(file_len).is_err() {
+                    eprintln!("touch: failed to restore '{}'", path);
+                    std::process::exit(-100);
+                };
+            }
+            // If this error is returned, the file doesn't exist and wasn't
+            // created (-c option). Show a message but don't return an 
+            // error because this is intended.
+            Err(e) if e.kind() == std::io::ErrorKind::NotFound => {
+                println!("'{}' already exists.", path);
+            }
+            _ => {
+                eprintln!("touch: failed to open '{}'", path);
+                std::process::exit(-100);
+            }
+        }
+    }
 }
 
 fn convert_mode(mode: u32, mode_str: &String) -> u32 {
