@@ -29,6 +29,26 @@
       "comparison": "included",
       "timeout": 10,
       "points": null
+    },
+    {
+      "name": "cat simple",
+      "setup": "",
+      "run": "cd devoir-1-tests && ./run_all.sh cat/cat_simple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "cat triple",
+      "setup": "",
+      "run": "cd devoir-1-tests && ./run_all.sh cat/cat_triple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 5,
+      "points": 5
     }
   ]
 }
