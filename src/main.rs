@@ -387,46 +387,46 @@ fn touch(args: &[String]) {
     }
 
     for path in args {
-        match std::fs::OpenOptions::new()
-            .read(!only_modification)
-            .append(!only_access)
+        match std::fs::File::options()
+            .read(true)
+            .append(true)
             .create(create)
             .open(path)
         {
             Ok(mut file) => {
-                let mut temp_buffer = [b'\0'];
-
-                let Ok(metadata) = file.metadata() else {
-                    eprintln!("touch: failed to access '{}'", path);
-                    std::process::exit(-100);
-                };
-                let file_len = metadata.len();
-
-                // Force a mtime modification by writing a dummy char.
                 if !only_access {
+                    let Ok(metadata) = file.metadata() else {
+                        eprintln!("touch: failed to read '{}' metadata", path);
+                        std::process::exit(-100);
+                    };
+
+                    let file_len = metadata.len();
+
+                    // Force a mtime modification by writing a dummy char.
                     if file.write_all(&[b'\0']).is_err() {
                         eprintln!("touch: failed to modify mtime of '{}'", path);
                         std::process::exit(-100);
                     }
+
+                    // Restore initial length of the file (removing the added char).
+                    if file.set_len(file_len).is_err() {
+                        eprintln!("touch: failed to restore '{}'", path);
+                        std::process::exit(-100);
+                    };
                 }
 
                 // Read file contents to force atime modification.
                 if !only_modification {
+                    let mut temp_buffer = [b'\0'];
+
                     if file.read_at(&mut temp_buffer, 0).is_err() {
                         eprintln!("touch: failed to modify atime of '{}'", path);
                         std::process::exit(-100);
                     }
-                    println!("{:?}", temp_buffer);
                 }
-
-                // Restore initial length of the file (removing the added char).
-                if file.set_len(file_len).is_err() {
-                    eprintln!("touch: failed to restore '{}'", path);
-                    std::process::exit(-100);
-                };
             }
             // If this error is returned, the file doesn't exist and wasn't
-            // created (-c option). Show a message but don't return an 
+            // created (-c option). Show a message but don't return an
             // error because this is intended.
             Err(e) if e.kind() == std::io::ErrorKind::NotFound => {
                 println!("'{}' already exists.", path);
