@@ -183,7 +183,7 @@
     {
       "name": "invalid parameters",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh invalid/invalid_parameters.sh",
+      "run": "cd tests && ./run_all.sh invalid/invalid_parameters.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -193,7 +193,7 @@
     {
       "name": "invalid parameters 2",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh invalid/invalid_parameters2.sh",
+      "run": "cd tests && ./run_all.sh invalid/invalid_parameters2.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -203,7 +203,7 @@
     {
       "name": "mkdir error",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh mkdir/mkdir_error.sh",
+      "run": "cd tests && ./run_all.sh mkdir/mkdir_error.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -213,7 +213,7 @@
     {
       "name": "mkdir multiple",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh mkdir/mkdir_multiple.sh",
+      "run": "cd tests && ./run_all.sh mkdir/mkdir_multiple.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -223,7 +223,7 @@
     {
       "name": "mkdir path",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh mkdir/mkdir_path.sh",
+      "run": "cd tests && ./run_all.sh mkdir/mkdir_path.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -233,7 +233,7 @@
     {
       "name": "mkdir path multiple",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh mkdir/mkdir_path_multiple.sh",
+      "run": "cd tests && ./run_all.sh mkdir/mkdir_path_multiple.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -243,7 +243,7 @@
     {
       "name": "mkdir simple",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh mkdir/mkdir_simple.sh",
+      "run": "cd tests && ./run_all.sh mkdir/mkdir_simple.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -253,7 +253,7 @@
     {
       "name": "mkdir spaces",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh mkdir/mkdir_spaces.sh",
+      "run": "cd tests && ./run_all.sh mkdir/mkdir_spaces.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -263,7 +263,7 @@
     {
       "name": "rmdir empty error",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh rmdir/rmdir_empty_error.sh",
+      "run": "cd tests && ./run_all.sh rmdir/rmdir_empty_error.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -273,7 +273,7 @@
     {
       "name": "rmedir exists error",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh rmdir/rmdir_exists_error.sh",
+      "run": "cd tests && ./run_all.sh rmdir/rmdir_exists_error.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -283,7 +283,7 @@
     {
       "name": "rmdir link",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh rmdir/rmdir_link.sh",
+      "run": "cd tests && ./run_all.sh rmdir/rmdir_link.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -293,7 +293,7 @@
     {
       "name": "rmdir multiple",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh rmdir/rmdir_multiple.sh",
+      "run": "cd tests && ./run_all.sh rmdir/rmdir_multiple.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -303,7 +303,7 @@
     {
       "name": "rmdir simple",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh rmdir/rmdir_simple.sh",
+      "run": "cd tests && ./run_all.sh rmdir/rmdir_simple.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -313,7 +313,7 @@
     {
       "name": "mv dir",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh mv/mv_dir.sh",
+      "run": "cd tests && ./run_all.sh mv/mv_dir.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -323,7 +323,7 @@
     {
       "name": "mv error",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh mv/mv_error.sh",
+      "run": "cd tests && ./run_all.sh mv/mv_error.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -333,7 +333,7 @@
     {
       "name": "mv simple",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh mv/mv_simple.sh",
+      "run": "cd tests && ./run_all.sh mv/mv_simple.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -343,7 +343,7 @@
     {
       "name": "ln error",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh ln/ln_error.sh",
+      "run": "cd tests && ./run_all.sh ln/ln_error.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -353,7 +353,7 @@
     {
       "name": "ln s",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh ln/ln_s.sh",
+      "run": "cd tests && ./run_all.sh ln/ln_s.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -363,7 +363,7 @@
     {
       "name": "ln simple",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh ln/ln_simple.sh",
+      "run": "cd tests && ./run_all.sh ln/ln_simple.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -373,7 +373,7 @@
     {
       "name": "ln symbolic",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh ln/ln_symbolic.sh",
+      "run": "cd tests && ./run_all.sh ln/ln_symbolic.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -383,7 +383,7 @@
     {
       "name": "ls all",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh ls/ls_all.sh",
+      "run": "cd tests && ./run_all.sh ls/ls_all.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -393,7 +393,7 @@
     {
       "name": "ls all re",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh ls/ls_all_r.sh",
+      "run": "cd tests && ./run_all.sh ls/ls_all_r.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -403,7 +403,7 @@
     {
       "name": "ls dir",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh ls/ls_dir.sh",
+      "run": "cd tests && ./run_all.sh ls/ls_dir.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -413,7 +413,7 @@
     {
       "name": "ls error",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh ls/ls_err.sh",
+      "run": "cd tests && ./run_all.sh ls/ls_err.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -423,7 +423,7 @@
     {
       "name": "ls file",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh ls/ls_file.sh",
+      "run": "cd tests && ./run_all.sh ls/ls_file.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -433,7 +433,7 @@
     {
       "name": "ls re",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh ls/ls_r.sh",
+      "run": "cd tests && ./run_all.sh ls/ls_r.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -443,7 +443,7 @@
     {
       "name": "ls simple",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh ls/ls_simple.sh",
+      "run": "cd tests && ./run_all.sh ls/ls_simple.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -453,7 +453,7 @@
     {
       "name": "cp error directory",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh cp/cp_error_dir.sh",
+      "run": "cd tests && ./run_all.sh cp/cp_error_dir.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -463,7 +463,7 @@
     {
       "name": "cp error file",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh cp/cp_error_file.sh",
+      "run": "cd tests && ./run_all.sh cp/cp_error_file.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -473,7 +473,7 @@
     {
       "name": "cp re",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh cp/cp_r.sh",
+      "run": "cd tests && ./run_all.sh cp/cp_r.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -483,7 +483,7 @@
     {
       "name": "cp re file",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh cp/cp_r_file.sh",
+      "run": "cd tests && ./run_all.sh cp/cp_r_file.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -493,7 +493,7 @@
     {
       "name": "cp rename directory",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh cp/cp_rename_dir.sh",
+      "run": "cd tests && ./run_all.sh cp/cp_rename_dir.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -503,7 +503,7 @@
     {
       "name": "cp simple file",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh cp/cp_simple_file.sh",
+      "run": "cd tests && ./run_all.sh cp/cp_simple_file.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -513,7 +513,7 @@
     {
       "name": "cp simple rename",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh cp/cp_simple_rename.sh",
+      "run": "cd tests && ./run_all.sh cp/cp_simple_rename.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -523,7 +523,7 @@
     {
       "name": "chmod add multiple",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh chmod/chmod_add_multiple.sh",
+      "run": "cd tests && ./run_all.sh chmod/chmod_add_multiple.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -533,7 +533,7 @@
     {
       "name": "chmod add one",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh chmod/chmod_add_one.sh",
+      "run": "cd tests && ./run_all.sh chmod/chmod_add_one.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -543,7 +543,7 @@
     {
       "name": "chmod all",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh chmod/chmod_all.sh",
+      "run": "cd tests && ./run_all.sh chmod/chmod_all.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -553,7 +553,7 @@
     {
       "name": "chmod del multiple",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh chmod/chmod_del_multiple.sh",
+      "run": "cd tests && ./run_all.sh chmod/chmod_del_multiple.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -563,7 +563,7 @@
     {
       "name": "chmod del one",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh chmod/chmod_del_one.sh",
+      "run": "cd tests && ./run_all.sh chmod/chmod_del_one.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -573,7 +573,7 @@
     {
       "name": "chmod number",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh chmod/chmod_number.sh",
+      "run": "cd tests && ./run_all.sh chmod/chmod_number.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -583,7 +583,7 @@
     {
       "name": "chmod user group",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh chmod/chmod_user_group.sh",
+      "run": "cd tests && ./run_all.sh chmod/chmod_user_group.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -593,7 +593,7 @@
     {
       "name": "rm cascade",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh rm/rm_cascade.sh",
+      "run": "cd tests && ./run_all.sh rm/rm_cascade.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -603,7 +603,7 @@
     {
       "name": "rm dir",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh rm/rm_dir.sh",
+      "run": "cd tests && ./run_all.sh rm/rm_dir.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -613,7 +613,7 @@
     {
       "name": "rm empty directory",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh rm/rm_empty_dir.sh",
+      "run": "cd tests && ./run_all.sh rm/rm_empty_dir.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -623,7 +623,7 @@
     {
       "name": "rm error directory",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh rm/rm_error_dir.sh",
+      "run": "cd tests && ./run_all.sh rm/rm_error_dir.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -633,7 +633,7 @@
     {
       "name": "rm error exists",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh rm/rm_error_exists.sh",
+      "run": "cd tests && ./run_all.sh rm/rm_error_exists.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -643,7 +643,7 @@
     {
       "name": "rm file",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh rm/rm_file.sh",
+      "run": "cd tests && ./run_all.sh rm/rm_file.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -653,7 +653,7 @@
     {
       "name": "rm multiple files",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh rm/rm_multiple_files.sh",
+      "run": "cd tests && ./run_all.sh rm/rm_multiple_files.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -663,7 +663,7 @@
     {
       "name": "rm multiple mixed",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh rm/rm_multiple_mixed.sh",
+      "run": "cd tests && ./run_all.sh rm/rm_multiple_mixed.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -673,7 +673,7 @@
     {
       "name": "rm re",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh rm/rm_recursive.sh",
+      "run": "cd tests && ./run_all.sh rm/rm_recursive.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -683,7 +683,7 @@
     {
       "name": "grep multiple",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh grep/echo_multiple.sh",
+      "run": "cd tests && ./run_all.sh grep/echo_multiple.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -693,7 +693,7 @@
     {
       "name": "grep nodescription",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh grep/echo_nodescription.sh",
+      "run": "cd tests && ./run_all.sh grep/echo_nodescription.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -703,7 +703,7 @@
     {
       "name": "grep shell",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh grep/echo_shell.sh",
+      "run": "cd tests && ./run_all.sh grep/echo_shell.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -713,7 +713,7 @@
     {
       "name": "grep simple",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh grep/grep_simple.sh",
+      "run": "cd tests && ./run_all.sh grep/grep_simple.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -723,7 +723,7 @@
     {
       "name": "ls list",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh ls/ls_l.sh",
+      "run": "cd tests && ./run_all.sh ls/ls_l.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
@@ -733,7 +733,7 @@
     {
       "name": "ls list re",
       "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh ls/ls_l_r.sh",
+      "run": "cd tests && ./run_all.sh ls/ls_l_r.sh",
       "input": "",
       "output": "",
       "comparison": "exact",
