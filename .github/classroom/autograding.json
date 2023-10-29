@@ -21,186 +21,6 @@
       "points": null
     },
     {
-      "name": "cat simple",
-      "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh cat/cat_simple.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 5
-    },
-    {
-      "name": "cat triple",
-      "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh cat/cat_triple.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 5
-    },
-    {
-      "name": "cat error",
-      "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh cat/cat_error.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 5
-    },
-    {
-      "name": "echo multiple",
-      "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh echo/echo_multiple.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 5
-    },
-    {
-      "name": "echo newline multiple",
-      "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh echo/echo_newline_multiple.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 5
-    },
-    {
-      "name": "echo newline simple",
-      "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh echo/echo_newline_simple.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 5
-    },
-    {
-      "name": "echo simple",
-      "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh echo/echo_simple.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 5
-    },
-    {
-      "name": "echo spaces",
-      "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh echo/echo_spaces.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 5
-    },
-    {
-      "name": "pwd",
-      "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh pwd/pwd.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 5
-    },
-    {
-      "name": "touch access",
-      "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh touch/touch_a.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 10
-    },
-    {
-      "name": "touch modified",
-      "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh touch/touch_m.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 10,
-      "points": 10
-    },
-    {
-      "name": "touch no create new",
-      "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh touch/touch_no_create_new.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 10
-    },
-    {
-      "name": "touch simple",
-      "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh touch/touch_simple.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 5
-    },
-    {
-      "name": "touch simple exists",
-      "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh touch/touch_simple_exists.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 10
-    },
-    {
-      "name": "invalid chmod",
-      "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh invalid/invalid_chmod.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 10
-    },
-    {
-      "name": "invalid command",
-      "setup": "",
-      "run": "cd devoir-1-tests && ./run_all.sh invalid/invalid_command.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 10
-    },
-    {
-      "name": "invalid parameters",
-      "setup": "",
-      "run": "cd tests && ./run_all.sh invalid/invalid_parameters.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 5
-    },
-    {
-      "name": "invalid parameters 2",
-      "setup": "",
-      "run": "cd tests && ./run_all.sh invalid/invalid_parameters2.sh",
-      "input": "",
-      "output": "",
-      "comparison": "exact",
-      "timeout": 5,
-      "points": 10
-    },
-    {
       "name": "mkdir error",
       "setup": "",
       "run": "cd tests && ./run_all.sh mkdir/mkdir_error.sh",
@@ -739,6 +559,186 @@
       "comparison": "exact",
       "timeout": 5,
       "points": 25
+    },
+    {
+      "name": "cat simple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh cat/cat_simple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "cat triple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh cat/cat_triple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "cat error",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh cat/cat_error.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "echo multiple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh echo/echo_multiple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "echo newline multiple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh echo/echo_newline_multiple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "echo newline simple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh echo/echo_newline_simple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "echo simple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh echo/echo_simple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "echo spaces",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh echo/echo_spaces.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "pwd",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh pwd/pwd.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "touch access",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh touch/touch_a.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "touch modified",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh touch/touch_m.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "touch no create new",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh touch/touch_no_create_new.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "touch simple",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh touch/touch_simple.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "touch simple exists",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh touch/touch_simple_exists.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "invalid chmod",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh invalid/invalid_chmod.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 10
+    },
+    {
+      "name": "invalid command",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh invalid/invalid_command.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "invalid parameters",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh invalid/invalid_parameters.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 5
+    },
+    {
+      "name": "invalid parameters 2",
+      "setup": "",
+      "run": "cd tests && ./run_all.sh invalid/invalid_parameters2.sh",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 5,
+      "points": 10
     }
   ]
 }
