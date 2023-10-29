@@ -21,16 +21,6 @@
       "points": null
     },
     {
-      "name": "Run All",
-      "setup": "",
-      "run": "cd tests && ./run_all.sh",
-      "input": "",
-      "output": "",
-      "comparison": "included",
-      "timeout": 10,
-      "points": null
-    },
-    {
       "name": "cat simple",
       "setup": "",
       "run": "cd devoir-1-tests && ./run_all.sh cat/cat_simple.sh",
