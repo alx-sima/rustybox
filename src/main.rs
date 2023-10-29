@@ -24,7 +24,7 @@ fn echo(args: &[String]) {
         match opt.as_str() {
             "-n" => endline = false,
             _ => {
-                eprintln!("Invalid command");
+                println!("Invalid command");
                 std::process::exit(-10);
             }
         }
@@ -41,7 +41,7 @@ fn echo(args: &[String]) {
             println!();
         }
     } else {
-        eprintln!("Invalid command");
+        println!("Invalid command");
         std::process::exit(-10);
     }
 }
@@ -86,8 +86,8 @@ fn ln(args: &[String]) {
         match opt.as_str() {
             "-s" | "--symbolic" => symbolic = true,
             _ => {
-                eprintln!("Invalid command");
-                std::process::exit(-50);
+                println!("Invalid command");
+                std::process::exit(-1);
             }
         }
     }
@@ -119,34 +119,68 @@ fn rmdir(args: &[String]) {
 }
 
 fn rm(args: &[String]) {
-    let (opts, args) = extract_options(args);
+    let (opts, files) = extract_options(args);
     let mut recursive = false;
     let mut rmdir = false;
 
     for opt in opts {
         match opt.as_str() {
-            "-r" | "--recursive" => recursive = true,
+            "-r" | "-R" | "--recursive" => recursive = true,
             "-d" | "--dir" => rmdir = true,
             _ => {
-                eprintln!("Invalid command");
+                println!("Invalid command");
                 std::process::exit(-70);
             }
         }
     }
 
-    for arg in args {
-        let ret_status = if recursive {
-            std::fs::remove_dir_all(arg)
-        } else if rmdir {
-            std::fs::remove_dir(arg)
+    if files.len() == 0 {
+        println!("Invalid command");
+        std::process::exit(-1);
+    }
+
+    let mut was_error = false;
+
+    for file in files {
+        let Ok(metadata) = std::fs::metadata(file) else {
+            eprintln!("rm: failed to access '{}'", file);
+            was_error = true;
+            continue;
+        };
+
+        if metadata.is_file() {
+            if std::fs::remove_file(file).is_err() {
+                eprintln!("rm: failed to remove '{}'", file);
+                was_error = true;
+            }
+
+            continue;
+        }
+
+        let ret_status = if metadata.is_dir() {
+            if recursive {
+                std::fs::remove_dir_all(file)
+            } else if rmdir {
+                std::fs::remove_dir(file)
+            } else {
+                eprintln!("rm: cannot remove directory '{}'", file);
+                was_error = true;
+
+                // Return ok because the error is already signaled.
+                Ok(())
+            }
         } else {
-            std::fs::remove_file(arg)
+            std::fs::remove_file(file)
         };
 
         if ret_status.is_err() {
-            eprintln!("rm: failed to remove '{}'", arg);
-            std::process::exit(-70);
+            eprintln!("rm: failed to remove '{}'", file);
+            was_error = true;
         }
+    }
+
+    if was_error {
+        std::process::exit(-70);
     }
 }
 
@@ -240,7 +274,7 @@ fn ls(args: &[String]) {
             "-a" | "--all" => all = true,
             "-l" => todo!(),
             _ => {
-                eprintln!("Invalid command");
+                println!("Invalid command");
                 std::process::exit(-80);
             }
         }
@@ -310,7 +344,7 @@ fn cp(args: &[String]) {
         match opt.as_str() {
             "-R" | "-r" | "--recursive" => recursive = true,
             _ => {
-                eprintln!("Invalid command");
+                println!("Invalid command");
                 std::process::exit(-90);
             }
         }
@@ -506,6 +540,7 @@ fn main() {
         match command.as_str() {
             "pwd" => pwd(),
             "echo" => echo(args),
+            "grep" => todo!(),
             "cat" => cat(args),
             "mkdir" => mkdir(args),
             "mv" => mv(args),
@@ -516,7 +551,10 @@ fn main() {
             "cp" => cp(args),
             "touch" => touch(args),
             "chmod" => chmod(args),
-            _ => eprintln!("Invalid command"),
+            _ => {
+                println!("Invalid command");
+                std::process::exit(-1)
+            }
         }
     } else {
         eprintln!("Usage: {} COMMAND [ARGS]...", rustybox_exec);
