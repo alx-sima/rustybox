@@ -184,19 +184,27 @@ fn rm(args: &[String]) {
     }
 }
 
-fn list_dirs_rec(path_root: &String, dir_name: &String, all: bool, recursive: bool) -> Vec<String> {
-    let full_path = format!("{}/{}/", path_root, dir_name);
+fn print_file_info(path: &String, long: bool) {
+    if !long {
+        println!("{}", path);
+        return;
+    }
+
+    todo!();
+}
+
+fn list_dir(root: &String, dir: &String, all: bool, recursive: bool, long: bool) {
+    let full_path = format!("{}/{}/", root, dir);
+
+    // If '-a' is set, list current and parent directories as well.
+    if all {
+        print_file_info(&format!("{}.", dir), long);
+        print_file_info(&format!("{}..", dir), long);
+    }
 
     let Ok(contents) = std::fs::read_dir(&full_path) else {
         eprintln!("ls: failed reading files from '{}'", full_path);
         std::process::exit(-80);
-    };
-
-    let mut dirs = Vec::new();
-    let mut hidden_files = if all {
-        vec![format!("{}.", dir_name), format!("{}..", dir_name)]
-    } else {
-        vec![]
     };
 
     for entry in contents {
@@ -205,49 +213,35 @@ fn list_dirs_rec(path_root: &String, dir_name: &String, all: bool, recursive: bo
             std::process::exit(-80);
         };
 
-        if let Some(entry_name) = entry.file_name().to_str() {
-            let entry_full_name = format!("{}{}", dir_name, entry_name);
-
-            if entry_name.starts_with(".") {
-                if all {
-                    hidden_files.push(entry_full_name.to_owned());
-                }
-
+        if let Some(file_name) = entry.file_name().to_str() {
+            // Skip hidden files unless '-a' option is present.
+            if file_name.starts_with('.') && !all {
                 continue;
             }
 
-            println!("{}", entry_full_name);
-
-            if !recursive {
-                continue;
-            }
+            let full_name = dir.to_string() + file_name;
+            print_file_info(&full_name, long);
 
             let Ok(file_type) = entry.file_type() else {
-                eprintln!("ls: failed reading metadata of '{}'", entry_full_name);
+                eprintln!("ls: failed retrieving metadata of '{}'", full_name);
                 std::process::exit(-80);
             };
 
-            if file_type.is_dir() {
-                dirs.push(entry_full_name);
+            // Recurse into directories if '-r' option is present.
+            if file_type.is_dir() && recursive {
+                list_dir(root, &(full_name + "/"), all, recursive, long);
             }
         } else {
             eprintln!("ls: unsupported filename encoding in '{}'", full_path);
             std::process::exit(-80);
         }
     }
-
-    for dir in dirs {
-        let dir_path = format!("{}/", dir);
-        hidden_files.append(&mut list_dirs_rec(&path_root, &dir_path, all, recursive));
-    }
-
-    hidden_files
 }
 
-fn list_file(path: &String, all: bool, recursive: bool) {
+fn list_file(path: &String, all: bool, recursive: bool, long: bool) {
     if let Ok(file_metadata) = std::fs::metadata(path) {
         if file_metadata.is_file() {
-            println!("{}", path);
+            print_file_info(path, long);
             return;
         }
     } else {
@@ -255,24 +249,20 @@ fn list_file(path: &String, all: bool, recursive: bool) {
         std::process::exit(-80);
     }
 
-    let empty = String::from("");
-
-    let remaining_hidden_files = list_dirs_rec(path, &empty, all, recursive);
-    for file in remaining_hidden_files {
-        println!("{}", file);
-    }
+    list_dir(path, &String::from(""), all, recursive, long);
 }
 
 fn ls(args: &[String]) {
     let (opts, args) = extract_options(args);
     let mut recursive = false;
     let mut all = false;
+    let mut long = false;
 
     for opt in opts {
         match opt.as_str() {
             "-R" | "--recursive" => recursive = true,
             "-a" | "--all" => all = true,
-            "-l" => todo!(),
+            "-l" => long = true,
             _ => {
                 println!("Invalid command");
                 std::process::exit(-80);
@@ -282,11 +272,11 @@ fn ls(args: &[String]) {
 
     // ls with no dirs lists current directory.
     if args.is_empty() {
-        list_file(&String::from("."), all, recursive);
+        list_file(&String::from("."), all, recursive, long);
     }
 
     for arg in args {
-        list_file(arg, all, recursive);
+        list_file(arg, all, recursive, long);
     }
 }
 
