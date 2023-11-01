@@ -1,7 +1,7 @@
 mod utils;
 
 use std::{
-    io::Write,
+    io::{BufRead, Write},
     os::unix::prelude::{FileExt, PermissionsExt},
 };
 use utils::*;
@@ -41,6 +41,43 @@ fn echo(args: &[String]) {
     } else {
         println!("Invalid command");
         std::process::exit(-10);
+    }
+}
+
+
+fn grep(args: &[String]) {
+    let (opts, args) = extract_options(args);
+    let mut valid_if_matched = true;
+    for opt in opts {
+        match opt.as_str() {
+            "-i" => valid_if_matched = false,
+            _ => {
+                println!("Invalid command");
+                std::process::exit(-100);
+            }
+        }
+    }
+
+    let [pattern, file] = args.as_slice() else {
+        eprintln!("grep: Usage: grep PATTERN FILE");
+        std::process::exit(-100);
+    };
+
+    let Ok(file) = std::fs::File::open(file) else {
+        eprintln!("grep: failed to open '{}'", file);
+        std::process::exit(-100);
+    };
+
+    let regex = compile_expr(pattern);
+    for line in std::io::BufReader::new(file).lines() {
+        let Ok(line) = line else {
+            eprintln!("grep: failed to read line");
+            std::process::exit(-100);
+        };
+
+        if match_expr(&regex, &line) == valid_if_matched {
+            println!("{}", line);
+        }
     }
 }
 
@@ -388,7 +425,7 @@ fn main() {
         match command.as_str() {
             "pwd" => pwd(),
             "echo" => echo(args),
-            "grep" => todo!(),
+            "grep" => grep(args),
             "cat" => cat(args),
             "mkdir" => mkdir(args),
             "mv" => mv(args),

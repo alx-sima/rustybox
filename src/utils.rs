@@ -5,9 +5,58 @@ use std::{
     os::unix::prelude::{MetadataExt, PermissionsExt},
 };
 
+/// A clojure that returns c if current character matches the token.
+type TokenClojure = Box<dyn Fn(char) -> bool>;
+
 /// Split args into options (flags) and arguments.
 pub fn extract_options(args: &[String]) -> (Vec<&String>, Vec<&String>) {
     args.iter().partition(|arg| arg.starts_with("-"))
+}
+
+/// Compile a pattern into a list of clojures.
+pub fn compile_expr(pattern: &String) -> std::collections::LinkedList<TokenClojure> {
+    let mut list = std::collections::LinkedList::new();
+
+    for token in pattern.chars() {
+        let clojure: TokenClojure = match token {
+            '.' => Box::new(|_| true),
+            chr => Box::new(move |c| c == chr),
+        };
+
+        list.push_back(clojure);
+    }
+
+    list
+}
+
+/// Try to match a pattern starting at the beginning of a string.
+fn match_substr(pattern: &std::collections::LinkedList<TokenClojure>, string: &str) -> bool {
+    let mut pattern_cursor = pattern.iter();
+    let mut match_cursor = string.chars();
+    while let Some(chr) = match_cursor.next() {
+        let Some(pat) = pattern_cursor.next() else {
+            // Pattern ended.
+            return true;
+        };
+
+        if !pat(chr) {
+            break;
+        }
+    }
+
+    false
+}
+
+/// Try to match a pattern against a string.
+pub fn match_expr(pattern: &std::collections::LinkedList<TokenClojure>, string: &String) -> bool {
+    let string = string.as_str();
+    for i in 0..string.len() {
+        if match_substr(&pattern, &string[i..]) {
+            return true;
+        }
+    }
+
+    false
 }
 
 /// Search the name of a user or group by its id in the file `path`.
