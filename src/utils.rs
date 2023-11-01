@@ -5,8 +5,9 @@ use std::{
     os::unix::prelude::{MetadataExt, PermissionsExt},
 };
 
-/// A clojure that returns c if current character matches the token.
-type TokenClojure = Box<dyn Fn(char) -> bool>;
+/// A clojure that returns true if current character matches the token.
+/// Its inputs are the string to match and the current position in the string.
+type TokenClojure = Box<dyn Fn(&Vec<char>, &mut usize) -> bool>;
 
 /// Split args into options (flags) and arguments.
 pub fn extract_options(args: &[String]) -> (Vec<&String>, Vec<&String>) {
@@ -19,8 +20,16 @@ pub fn compile_expr(pattern: &String) -> std::collections::LinkedList<TokenCloju
 
     for token in pattern.chars() {
         let clojure: TokenClojure = match token {
-            '.' => Box::new(|_| true),
-            chr => Box::new(move |c| c == chr),
+            '^' => Box::new(|_, i| *i == 0),
+            '$' => Box::new(|s, i| *i == s.len()),
+            '.' => Box::new(|_, i| {
+                *i += 1;
+                true
+            }),
+            chr => Box::new(move |s, i| {
+                *i += 1;
+                s.get(*i - 1) == Some(&chr)
+            }),
         };
 
         list.push_back(clojure);
@@ -30,16 +39,21 @@ pub fn compile_expr(pattern: &String) -> std::collections::LinkedList<TokenCloju
 }
 
 /// Try to match a pattern starting at the beginning of a string.
-fn match_substr(pattern: &std::collections::LinkedList<TokenClojure>, string: &str) -> bool {
+fn match_substr(
+    pattern: &std::collections::LinkedList<TokenClojure>,
+    string: &Vec<char>,
+    start_pos: usize,
+) -> bool {
     let mut pattern_cursor = pattern.iter();
-    let mut match_cursor = string.chars();
-    while let Some(chr) = match_cursor.next() {
-        let Some(pat) = pattern_cursor.next() else {
+
+    let mut i = start_pos;
+    loop {
+        let Some(token_action) = pattern_cursor.next() else {
             // Pattern ended.
             return true;
         };
 
-        if !pat(chr) {
+        if !token_action(string, &mut i) {
             break;
         }
     }
@@ -49,9 +63,12 @@ fn match_substr(pattern: &std::collections::LinkedList<TokenClojure>, string: &s
 
 /// Try to match a pattern against a string.
 pub fn match_expr(pattern: &std::collections::LinkedList<TokenClojure>, string: &String) -> bool {
-    let string = string.as_str();
-    for i in 0..string.len() {
-        if match_substr(&pattern, &string[i..]) {
+    // Convert to Vec<> for O(1) random access (because
+    // String contains variable size chars).
+    let chars = string.chars().collect::<Vec<_>>();
+
+    for i in 0..chars.len() {
+        if match_substr(&pattern, &chars, i) {
             return true;
         }
     }
