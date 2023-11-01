@@ -1,8 +1,47 @@
 //! Utilitary functions for commands.
 
+use std::{
+    io::BufRead,
+    os::unix::prelude::{MetadataExt, PermissionsExt},
+};
+
 /// Split args into options (flags) and arguments.
 pub fn extract_options(args: &[String]) -> (Vec<&String>, Vec<&String>) {
     args.iter().partition(|arg| arg.starts_with("-"))
+}
+
+/// Search the name of a user or group by its id in the file `path`.
+/// The file must be formatted like `/etc/passwd` or `/etc/group`.
+fn search_id_name(path: &str, target_id: u32) -> Option<String> {
+    let Ok(file) = std::fs::File::open(path) else {
+        return None;
+    };
+
+    for line in std::io::BufReader::new(file).lines() {
+        let Ok(line) = line else {
+            return None;
+        };
+
+        let mut fields = line.split(':');
+
+        // `name` and `id` are fields 0 and 2.
+        let name = fields.next();
+        let id = fields.nth(1);
+
+        let (Some(name), Some(id)) = (name, id) else {
+            return None;
+        };
+
+        let Ok(id) = id.parse::<u32>() else {
+            return None;
+        };
+
+        if id == target_id {
+            return Some(name.to_owned());
+        }
+    }
+
+    None
 }
 
 fn print_file_info(path: &String, long: bool) {
@@ -11,7 +50,58 @@ fn print_file_info(path: &String, long: bool) {
         return;
     }
 
-    todo!();
+    let Ok(metadata) = std::fs::metadata(path) else {
+        eprintln!("ls: failed reading metadata for '{}'", path);
+        std::process::exit(-80);
+    };
+
+    let file_type = metadata.file_type();
+    let file_size = metadata.len();
+    let file_mode = metadata.permissions().mode();
+
+    let mut formatted_mode = String::new();
+    formatted_mode.push(if file_type.is_symlink() {
+        'l'
+    } else if file_type.is_dir() {
+        'd'
+    } else {
+        '-'
+    });
+
+    for group_mask in (0..3).rev() {
+        let group_perm = file_mode >> (group_mask * 3);
+
+        for (i, chr) in "rwx".chars().enumerate() {
+            if group_perm & (1 << (2 - i)) != 0 {
+                formatted_mode.push(chr);
+            } else {
+                formatted_mode.push('-');
+            }
+        }
+    }
+
+    let Some(owner) = search_id_name("/etc/passwd", metadata.uid()) else {
+        std::process::exit(-80);
+    };
+    let Some(group) = search_id_name("/etc/group", metadata.gid()) else {
+        std::process::exit(-80);
+    };
+
+    let Ok(mtime) = metadata.modified() else {
+        std::process::exit(-80);
+    };
+
+    let mtime: chrono::DateTime<chrono::Local> = chrono::DateTime::from(mtime);
+
+    println!(
+        "{} {} {} {} {} {}",
+        formatted_mode,
+        owner,
+        group,
+        file_size,
+        mtime.format("%b %-e %H:%M"),
+        path
+    );
 }
 
 fn list_dir(root: &String, dir: &String, all: bool, recursive: bool, long: bool) {
