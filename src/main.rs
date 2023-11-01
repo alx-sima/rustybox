@@ -359,7 +359,12 @@ fn chmod(args: &[String]) {
         mode
     } else {
         if let Ok(metadata) = std::fs::metadata(path) {
-            convert_mode(metadata.permissions().mode(), mode)
+            if let Some(mode) = convert_mode(metadata.permissions().mode(), mode) {
+                mode
+            } else {
+                eprintln!("chmod: invalid mode '{}'", mode);
+                std::process::exit(-25);
+            }
         } else {
             eprintln!("chmod: failed to access '{}'", path);
             std::process::exit(-25);

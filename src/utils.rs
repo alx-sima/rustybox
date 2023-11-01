@@ -122,33 +122,56 @@ pub fn copy_dir(src_root: &String, dest_root: &String, dir: &String) {
 }
 
 /// Modifies the current `mode` with the permissions specified in `mode_str`.
-pub fn convert_mode(mode: u32, mode_str: &String) -> u32 {
+/// Returns `None` if `mode_str` is invalid.
+pub fn convert_mode(mode: u32, mode_str: &String) -> Option<u32> {
     let mut user_mask = 0o000;
     let mut mode_mask = 0o000;
-    let mut add_perms = true;
 
-    for c in mode_str.chars() {
+    let mut modes = mode_str.split_inclusive(['+', '-']);
+    let users = modes.next();
+    let perms = modes.next();
+
+    let (Some(user_mode), Some(perm_mode)) = (users, perms) else {
+        return None;
+    };
+
+    let mut user_mode = user_mode.chars();
+    let perm_mode = perm_mode.chars();
+
+    // Check if these permissions are to be added or removed. The control
+    // character will be the last of `user_mode` (because of `split_inclusive`).
+    let Some(change_mode) = user_mode.next_back() else {
+        return None;
+    };
+    let add_perms = change_mode == '+';
+
+    for c in user_mode {
         match c {
             'u' => user_mask |= 0o700,
             'g' => user_mask |= 0o070,
             'o' => user_mask |= 0o007,
             'a' => user_mask |= 0o777,
-            '+' => {}
-            '-' => add_perms = false,
-            'r' => mode_mask |= 0o444,
-            'w' => mode_mask |= 0o222,
-            'x' => mode_mask |= 0o111,
             _ => {
-                eprintln!("chmod: invalid mode '{}'", mode_str);
-                std::process::exit(-25);
+                return None;
             }
         }
     }
 
-    let new_mask = user_mask & mode_mask;
+    for c in perm_mode {
+        match c {
+            'r' => mode_mask |= 0o444,
+            'w' => mode_mask |= 0o222,
+            'x' => mode_mask |= 0o111,
+            _ => {
+                return None;
+            }
+        }
+    }
+
+    let mask = user_mask & mode_mask;
     if add_perms {
-        mode | new_mask
+        Some(mode | mask)
     } else {
-        mode & !new_mask
+        Some(mode & !mask)
     }
 }
