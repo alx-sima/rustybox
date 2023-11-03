@@ -7,7 +7,9 @@ use std::{
 
 /// A clojure that returns true if current character matches the token.
 /// Its inputs are the string to match and the current position in the string.
-type TokenClojure = Box<dyn Fn(&Vec<char>, &mut usize) -> bool>;
+type TokenValidator = Box<dyn Fn(&Vec<char>, &mut usize) -> bool>;
+
+type Pattern = Vec<TokenValidator>;
 
 /// Split args into options (flags) and arguments.
 pub fn extract_options(args: &[String]) -> (Vec<&String>, Vec<&String>) {
@@ -15,15 +17,35 @@ pub fn extract_options(args: &[String]) -> (Vec<&String>, Vec<&String>) {
 }
 
 /// Compile a pattern into a list of clojures.
-pub fn compile_expr(pattern: &String) -> std::collections::LinkedList<TokenClojure> {
-    let mut list = std::collections::LinkedList::new();
+pub fn compile_expr(pattern_str: &String) -> Pattern {
+    let mut pattern = Pattern::new();
 
-    for token in pattern.chars() {
-        let clojure: TokenClojure = match token {
+    for token in pattern_str.chars() {
+        let validator: TokenValidator = match token {
             '^' => Box::new(|_, i| *i == 0),
             '$' => Box::new(|s, i| *i == s.len()),
+            '*' => {
+                // Take the previous clojure and create a
+                // new one that matches it 0 or more times.
+                let Some(prev_validator) = pattern.pop() else {
+                    eprintln!("grep: invalid pattern '{}'", pattern_str);
+                    std::process::exit(-100);
+                };
+
+                Box::new(move |s, i| {
+                    // Match the previous clojure as many times as possible.
+                    while prev_validator(s, i) && *i < s.len() {}
+
+                    // Go back to the character that didn't match the
+                    // wildcard so it can be matched with the next token.
+                    *i -= 1;
+                    true
+                })
+            }
             '.' => Box::new(|_, i| {
                 *i += 1;
+
+                // Match anything.
                 true
             }),
             chr => Box::new(move |s, i| {
@@ -32,21 +54,17 @@ pub fn compile_expr(pattern: &String) -> std::collections::LinkedList<TokenCloju
             }),
         };
 
-        list.push_back(clojure);
+        pattern.push(validator);
     }
 
-    list
+    pattern
 }
 
 /// Try to match a pattern starting at the beginning of a string.
-fn match_substr(
-    pattern: &std::collections::LinkedList<TokenClojure>,
-    string: &Vec<char>,
-    start_pos: usize,
-) -> bool {
+fn match_substr(pattern: &Pattern, string: &Vec<char>, start_pos: usize) -> bool {
     let mut pattern_cursor = pattern.iter();
-
     let mut i = start_pos;
+
     loop {
         let Some(token_action) = pattern_cursor.next() else {
             // Pattern ended.
@@ -54,16 +72,19 @@ fn match_substr(
         };
 
         if !token_action(string, &mut i) {
+            // Pattern didn't match.
             break;
         }
     }
 
+    // Pattern didn't match or string
+    // ended before the pattern.
     false
 }
 
-/// Try to match a pattern against a string.
-pub fn match_expr(pattern: &std::collections::LinkedList<TokenClojure>, string: &String) -> bool {
-    // Convert to Vec<> for O(1) random access (because
+/// Try to match a pattern against a substring of `string`.
+pub fn match_expr(pattern: &Pattern, string: &String) -> bool {
+    // Convert to Vec<char> for O(1) random access (because
     // String contains variable size chars).
     let chars = string.chars().collect::<Vec<_>>();
 
