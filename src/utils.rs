@@ -131,14 +131,16 @@ fn search_id_name(path: &str, target_id: u32) -> Option<String> {
     None
 }
 
-fn print_file_info(path: &String, long: bool) {
+fn print_file_info(path_prefix: &String, path: &String, long: bool) {
     if !long {
         println!("{}", path);
         return;
     }
 
-    let Ok(metadata) = std::fs::metadata(path) else {
-        eprintln!("ls: failed reading metadata for '{}'", path);
+    let actual_path = path_prefix.clone() + "/" + path;
+
+    let Ok(metadata) = std::fs::metadata(&actual_path) else {
+        eprintln!("ls: failed reading metadata for '{}'", actual_path);
         std::process::exit(-80);
     };
 
@@ -191,23 +193,25 @@ fn print_file_info(path: &String, long: bool) {
     );
 }
 
-fn list_dir(root: &String, dir: &String, all: bool, recursive: bool, long: bool) {
-    let full_path = format!("{}/{}/", root, dir);
+fn list_dir(path: &String, all: bool, recursive: bool, long: bool) {
+    if recursive {
+        println!("{}:", path);
+    }
 
     // If '-a' is set, list current and parent directories as well.
     if all {
-        print_file_info(&format!("{}.", dir), long);
-        print_file_info(&format!("{}..", dir), long);
+        print_file_info(path, &String::from("."), long);
+        print_file_info(path, &String::from(".."), long);
     }
 
-    let Ok(contents) = std::fs::read_dir(&full_path) else {
-        eprintln!("ls: failed reading files from '{}'", full_path);
+    let Ok(contents) = std::fs::read_dir(&path) else {
+        eprintln!("ls: failed reading files from '{}'", path);
         std::process::exit(-80);
     };
 
     for entry in contents {
         let Ok(entry) = entry else {
-            eprintln!("ls: failed reading files from '{}'", full_path);
+            eprintln!("ls: failed reading files from '{}'", path);
             std::process::exit(-80);
         };
 
@@ -217,20 +221,19 @@ fn list_dir(root: &String, dir: &String, all: bool, recursive: bool, long: bool)
                 continue;
             }
 
-            let full_name = dir.to_string() + file_name;
-            print_file_info(&full_name, long);
+            print_file_info(path, &file_name.to_owned(), long);
 
             let Ok(file_type) = entry.file_type() else {
-                eprintln!("ls: failed retrieving metadata of '{}'", full_name);
+                eprintln!("ls: failed retrieving metadata of '{}/{}'", path, file_name);
                 std::process::exit(-80);
             };
 
             // Recurse into directories if '-r' option is present.
             if file_type.is_dir() && recursive {
-                list_dir(root, &(full_name + "/"), all, recursive, long);
+                list_dir(&format!("{}/{}", path, file_name), all, recursive, long);
             }
         } else {
-            eprintln!("ls: unsupported filename encoding in '{}'", full_path);
+            eprintln!("ls: unsupported filename encoding in '{}'", path);
             std::process::exit(-80);
         }
     }
@@ -240,7 +243,7 @@ fn list_dir(root: &String, dir: &String, all: bool, recursive: bool, long: bool)
 pub fn list_file(path: &String, all: bool, recursive: bool, long: bool) {
     if let Ok(file_metadata) = std::fs::metadata(path) {
         if file_metadata.is_file() {
-            print_file_info(path, long);
+            print_file_info(&String::from(""), path, long);
             return;
         }
     } else {
@@ -248,7 +251,7 @@ pub fn list_file(path: &String, all: bool, recursive: bool, long: bool) {
         std::process::exit(-80);
     }
 
-    list_dir(path, &String::from(""), all, recursive, long);
+    list_dir(path, all, recursive, long);
 }
 
 /// Copy contents of 'src_root/dir/' to 'dest_root/dir/'.
