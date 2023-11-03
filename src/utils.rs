@@ -298,9 +298,10 @@ pub fn copy_dir(src_root: &String, dest_root: &String, dir: &String) {
     }
 }
 
-/// Modifies the current `mode` with the permissions specified in `mode_str`.
+/// Converts permision literals from "symbolic mode" into bits.
+/// Also return whether they are to be added or removed.
 /// Returns `None` if `mode_str` is invalid.
-pub fn convert_mode(mode: u32, mode_str: &String) -> Option<u32> {
+pub fn convert_mode(mode_str: &String) -> Option<(u32, bool)> {
     let mut user_mask = 0o000;
     let mut mode_mask = 0o000;
 
@@ -345,10 +346,5 @@ pub fn convert_mode(mode: u32, mode_str: &String) -> Option<u32> {
         }
     }
 
-    let mask = user_mask & mode_mask;
-    if add_perms {
-        Some(mode | mask)
-    } else {
-        Some(mode & !mask)
-    }
+    Some((user_mask & mode_mask, add_perms))
 }

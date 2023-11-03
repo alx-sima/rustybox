@@ -44,7 +44,6 @@ fn echo(args: &[String]) {
     }
 }
 
-
 fn grep(args: &[String]) {
     let (opts, args) = extract_options(args);
     let mut valid_if_matched = true;
@@ -395,12 +394,18 @@ fn chmod(args: &[String]) {
     let new_mode = if let Ok(mode) = u32::from_str_radix(mode, 8) {
         mode
     } else {
+        let Some((mode, add_perms)) = convert_mode(mode) else {
+            println!("Invalid command");
+            std::process::exit(-1);
+        };
+
         if let Ok(metadata) = std::fs::metadata(path) {
-            if let Some(mode) = convert_mode(metadata.permissions().mode(), mode) {
-                mode
+            let current_mode = metadata.permissions().mode();
+
+            if add_perms {
+                current_mode | mode
             } else {
-                eprintln!("chmod: invalid mode '{}'", mode);
-                std::process::exit(-25);
+                current_mode & !mode
             }
         } else {
             eprintln!("chmod: failed to access '{}'", path);
